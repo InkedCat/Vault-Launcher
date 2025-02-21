@@ -1,4 +1,3 @@
-mod commands;
 mod tray_icon;
 
 use tauri::{Window, WindowEvent};
