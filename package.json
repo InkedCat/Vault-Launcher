@@ -1,49 +1,49 @@
 {
-  "name": "dedi-launcher",
-  "version": "0.1.0",
-  "description": "",
-  "type": "module",
-  "scripts": {
-    "dev": "vite dev",
-    "build": "vite build",
-    "preview": "vite preview",
-    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-    "format": "prettier --write .",
+	"name": "dedi-launcher",
+	"version": "0.1.0",
+	"description": "",
+	"type": "module",
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"format": "prettier --write .",
 		"lint": "prettier --check . && eslint .",
-    "tauri": "tauri"
-  },
-  "license": "MIT",
-  "dependencies": {
-    "@tauri-apps/api": "^2",
-    "@tauri-apps/plugin-opener": "^2"
-  },
-  "devDependencies": {
-    "@eslint/compat": "^1.2.5",
-		"@eslint/js": "^9.18.0",
-    "@sveltejs/adapter-static": "^3.0.8",
-    "@sveltejs/kit": "^2.16.0",
-    "@sveltejs/vite-plugin-svelte": "^5.0.0",
-    "@tailwindcss/vite": "^4.0.0",
-    "@tauri-apps/cli": "^2",
-    "eslint": "^9.18.0",
+		"tauri": "tauri"
+	},
+	"license": "MIT",
+	"dependencies": {
+		"@tauri-apps/api": "^2",
+		"@tauri-apps/plugin-opener": "^2"
+	},
+	"devDependencies": {
+		"@eslint/compat": "^1.2.7",
+		"@eslint/js": "^9.21.0",
+		"@sveltejs/adapter-static": "^3.0.8",
+		"@sveltejs/kit": "^2.17.2",
+		"@sveltejs/vite-plugin-svelte": "^5.0.3",
+		"@tauri-apps/cli": "^2",
+		"autoprefixer": "^10.4.20",
+		"eslint": "^9.21.0",
 		"eslint-config-prettier": "^10.0.1",
 		"eslint-plugin-svelte": "^2.46.1",
-    "globals": "^15.14.0",
-    "prettier": "^3.4.2",
+		"globals": "^15.15.0",
+		"prettier": "^3.5.2",
 		"prettier-plugin-svelte": "^3.3.3",
-		"prettier-plugin-tailwindcss": "^0.6.11",
-    "svelte": "^5.0.0",
-    "svelte-check": "^4.0.0",
-    "tailwindcss": "^4.0.0",
-    "typescript": "~5.6.2",
-    "typescript-eslint": "^8.20.0",
-    "vite": "^6.0.3"
-  },
-  "pnpm": {
+		"prettier-plugin-tailwindcss": "^0.6.10",
+		"svelte": "^5.20.2",
+		"svelte-check": "^4.1.4",
+		"tailwindcss": "^3.4.17",
+		"typescript": "~5.7.3",
+		"typescript-eslint": "^8.24.1",
+		"vite": "^6.1.1"
+	},
+	"pnpm": {
 		"onlyBuiltDependencies": [
 			"esbuild"
 		]
 	},
-  "packageManager": "pnpm@8.8.0+sha512.798e6b322669ce63c8da856bd62ad1f7b6f36f4dfaa0ac025af2bdd700d09dd5dca943e5cad3edac5d1b3baebc4b2c3fb80fbb8537f936733c32be2ec7805144"
+	"packageManager": "pnpm@8.8.0+sha512.798e6b322669ce63c8da856bd62ad1f7b6f36f4dfaa0ac025af2bdd700d09dd5dca943e5cad3edac5d1b3baebc4b2c3fb80fbb8537f936733c32be2ec7805144"
 }
