@@ -61,6 +61,11 @@ const config: Config = {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				titlebar: {
+					background: 'hsl(var(--titlebar-background))',
+					accent: 'hsl(var(--titlebar-accent))',
+					border: 'hsl(var(--titlebar-border))'
 				}
 			},
 			borderRadius: {
