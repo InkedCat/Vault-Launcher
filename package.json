@@ -16,7 +16,7 @@
 		"check-licenses": "pnpm list  -r --depth Infinity --long --json | node ./licenses-check.mjs check",
 		"check-licenses:unknown": "pnpm list  -r --depth Infinity --long --json | node ./licenses-check.mjs check --unknown"
 	},
-	"license": "MIT",
+	"license": "GPL-3.0-only",
 	"dependencies": {
 		"@tauri-apps/api": "^2",
 		"@tauri-apps/plugin-opener": "^2"
