@@ -4,7 +4,7 @@
 	import * as Avatar from '@/components/ui/avatar';
 	import ChevronsUpDown from 'lucide-svelte/icons/chevrons-up-down';
 	import Plus from 'lucide-svelte/icons/plus';
-	import type { ServerProfile } from './types/sidebar';
+	import type { ServerProfile } from './types';
 	import OnlineStatus from './online-status.svelte';
 
 	interface ServerSwitcherProps {

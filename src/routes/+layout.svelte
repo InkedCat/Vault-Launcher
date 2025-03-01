@@ -1,37 +1,10 @@
 <script lang="ts">
-	import { ModeWatcher } from 'mode-watcher';
-	import { onNavigate } from '$app/navigation';
-	import * as Sidebar from '@/components/ui/sidebar';
-	import { AppSidebar } from '@/components/navbar';
-	import { Titlebar } from '@/components';
+	import type { Snippet } from 'svelte';
+	import type { LayoutData } from './$types';
 
 	import '../app.css';
 
-	let { children } = $props();
-
-	onNavigate((navigation) => {
-		if (!document.startViewTransition) return;
-
-		return new Promise((resolve) => {
-			document.startViewTransition(async () => {
-				resolve();
-				await navigation.complete;
-			});
-		});
-	});
-
-	let windowWidth = $state(0);
+	let { data, children }: { data: LayoutData; children: Snippet } = $props();
 </script>
 
-<svelte:window bind:innerWidth={windowWidth} />
-
-<ModeWatcher />
-<Sidebar.Provider open={windowWidth >= 1024}>
-	<AppSidebar />
-	<div class="flex h-screen w-screen flex-col">
-		<Titlebar />
-		<main class="flex-1 p-6">
-			{@render children?.()}
-		</main>
-	</div>
-</Sidebar.Provider>
+{@render children()}

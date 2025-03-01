@@ -12,7 +12,7 @@
 		ArrowLeftRight as Switch
 	} from 'lucide-svelte';
 
-	import type { UserProfile } from './types/sidebar';
+	import type { UserProfile } from './types';
 
 	interface NavProfileProps {
 		user: UserProfile;

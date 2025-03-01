@@ -1,6 +1,6 @@
 <script lang="ts">
 	import * as Sidebar from '@/components/ui/sidebar';
-	import type { SidebarGroup } from './types/sidebar';
+	import type { SidebarGroup } from './types';
 
 	interface NavMainProps {
 		groups: SidebarGroup[];
