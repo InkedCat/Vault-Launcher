@@ -51,6 +51,9 @@ importers:
       '@inlang/paraglide-js':
         specifier: 2.0.12
         version: 2.0.12
+      '@lucide/svelte':
+        specifier: ^0.509.0
+        version: 0.509.0(svelte@5.20.2)
       '@sveltejs/adapter-static':
         specifier: ^3.0.8
         version: 3.0.8(@sveltejs/kit@2.17.2(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.20.2)(vite@6.1.1(@types/node@22.15.15)(jiti@1.21.7)(sass@1.85.1)(yaml@2.7.0)))(svelte@5.20.2)(vite@6.1.1(@types/node@22.15.15)(jiti@1.21.7)(sass@1.85.1)(yaml@2.7.0)))
@@ -126,6 +129,9 @@ importers:
       vite:
         specifier: ^6.1.1
         version: 6.1.1(@types/node@22.15.15)(jiti@1.21.7)(sass@1.85.1)(yaml@2.7.0)
+      vite-plugin-devtools-json:
+        specifier: ^0.1.0
+        version: 0.1.0(vite@6.1.1(@types/node@22.15.15)(jiti@1.21.7)(sass@1.85.1)(yaml@2.7.0))
 
 packages:
 
@@ -461,6 +467,11 @@ packages:
 
   '@lix-js/server-protocol-schema@0.1.1':
     resolution: {integrity: sha512-jBeALB6prAbtr5q4vTuxnRZZv1M2rKe8iNqRQhFJ4Tv7150unEa0vKyz0hs8Gl3fUGsWaNJBh3J8++fpbrpRBQ==}
+
+  '@lucide/svelte@0.509.0':
+    resolution: {integrity: sha512-rG/oNz5HiuG+9xZawNxD08x5sIgvfIcFVDx7J2YAOHNK9+zDAro/DAhWLOdmE0eag5CYzxwAWh8LVowXpZvW/g==}
+    peerDependencies:
+      svelte: ^5
 
   '@mdi/js@7.4.47':
     resolution: {integrity: sha512-KPnNOtm5i2pMabqZxpUz7iQf+mfrYZyKCZ8QNz85czgEt7cuHcGorWfdzUMWYA0SD+a6Hn4FmJ+YhzzzjkTZrQ==}
@@ -2053,6 +2064,10 @@ packages:
     resolution: {integrity: sha512-8XkAphELsDnEGrDxUOHB3RGvXz6TeuYSGEZBOjtTtPm2lwhGBjLgOzLHB63IUWfBpNucQjND6d3AOudO+H3RWQ==}
     hasBin: true
 
+  uuid@11.1.0:
+    resolution: {integrity: sha512-0/A9rDy9P7cJ+8w1c9WD9V//9Wj15Ce2MPz8Ri6032usz+NfePxx5AcN3bN+r6ZL6jEo066/yNYB3tn4pQEx+A==}
+    hasBin: true
+
   vite-dev-rpc@0.1.7:
     resolution: {integrity: sha512-e5HCaGI/5cHSB6wzhQyaH/JhUsPLI+TylHYp8UxAypeZaFoEHvBvRPD0nTYQtUEqeZb8qSznbVM/VznKSVC8/Q==}
     peerDependencies:
@@ -2062,6 +2077,11 @@ packages:
     resolution: {integrity: sha512-a1nzURqO7DDmnXqabFOliz908FRmIppkBKsJthS8rbe8hBEXwEwe4C3Pp33Z1JoFCYfVL4kTOMLKk0ZZxREIeA==}
     peerDependencies:
       vite: ^2.6.0 || ^3.0.0 || ^4.0.0 || ^5.0.0-0 || ^6.0.0-0
+
+  vite-plugin-devtools-json@0.1.0:
+    resolution: {integrity: sha512-KvdgPBUAAhwnpOgXmJhs6KI4/IPn6xUppLGm20D0Uvp/doZ9TpTYYfzSHX0TgvdsSlTAwzZfzDse+ujGskp68g==}
+    peerDependencies:
+      vite: ^2.7.0 || ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0
 
   vite@6.1.1:
     resolution: {integrity: sha512-4GgM54XrwRfrOp297aIYspIti66k56v16ZnqHvrIM7mG+HjDlAwS7p+Srr7J6fGvEdOJ5JcQ/D9T7HhtdXDTzA==}
@@ -2427,6 +2447,10 @@ snapshots:
       - babel-plugin-macros
 
   '@lix-js/server-protocol-schema@0.1.1': {}
+
+  '@lucide/svelte@0.509.0(svelte@5.20.2)':
+    dependencies:
+      svelte: 5.20.2
 
   '@mdi/js@7.4.47': {}
 
@@ -3912,6 +3936,8 @@ snapshots:
 
   uuid@10.0.0: {}
 
+  uuid@11.1.0: {}
+
   vite-dev-rpc@0.1.7(vite@6.1.1(@types/node@22.15.15)(jiti@1.21.7)(sass@1.85.1)(yaml@2.7.0)):
     dependencies:
       birpc: 0.2.19
@@ -3920,6 +3946,11 @@ snapshots:
 
   vite-hot-client@0.2.4(vite@6.1.1(@types/node@22.15.15)(jiti@1.21.7)(sass@1.85.1)(yaml@2.7.0)):
     dependencies:
+      vite: 6.1.1(@types/node@22.15.15)(jiti@1.21.7)(sass@1.85.1)(yaml@2.7.0)
+
+  vite-plugin-devtools-json@0.1.0(vite@6.1.1(@types/node@22.15.15)(jiti@1.21.7)(sass@1.85.1)(yaml@2.7.0)):
+    dependencies:
+      uuid: 11.1.0
       vite: 6.1.1(@types/node@22.15.15)(jiti@1.21.7)(sass@1.85.1)(yaml@2.7.0)
 
   vite@6.1.1(@types/node@22.15.15)(jiti@1.21.7)(sass@1.85.1)(yaml@2.7.0):

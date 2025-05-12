@@ -22,3 +22,9 @@ Cargo.lock
 
 node_modules/
 .svelte-kit/
+
+# Build folder
+/build/
+
+# Cursor
+.cursor/
