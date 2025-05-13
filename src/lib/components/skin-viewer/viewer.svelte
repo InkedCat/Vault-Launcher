@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { T } from '@threlte/core';
+	import { extend, T } from '@threlte/core';
 	import { OrbitControls, useTexture } from '@threlte/extras';
 	import Head from './head.svelte';
 	import Body from './body.svelte';
@@ -9,7 +9,10 @@
 	import LeftLeg from './left-leg.svelte';
 	import { NearestFilter } from 'three';
 	import Renderer from './renderer.svelte';
-	import { generateArmUV, generateBodyUV, generateHeadUV, generateLegUV } from './utils';
+
+	extend({
+		OrbitControls
+	});
 
 	interface LeftArmProps {
 		texturePath: string;
@@ -28,7 +31,7 @@
 </script>
 
 <T.PerspectiveCamera makeDefault position={[-10, 16, -42]}>
-	<OrbitControls
+	<T.OrbitControls
 		minPolarAngle={Math.PI / 2.4}
 		maxPolarAngle={0}
 		enableDamping
