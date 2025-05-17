@@ -1,8 +1,8 @@
 {
 	"$schema": "https://schema.tauri.app/config/2",
-	"productName": "dedi-launcher",
+	"productName": "Vault Launcher",
 	"version": "0.1.0",
-	"identifier": "dedi-launcher",
+	"identifier": "vault-launcher",
 	"build": {
 		"beforeDevCommand": "pnpm dev",
 		"devUrl": "http://localhost:1420",
@@ -12,7 +12,7 @@
 	"app": {
 		"windows": [
 			{
-				"title": "dedi-launcher",
+				"title": "Vault Launcher",
 				"decorations": false,
 				"width": 1280,
 				"height": 720,
@@ -39,7 +39,7 @@
 	"plugins": {
 		"deep-link": {
 			"desktop": {
-				"schemes": ["dedilauncher"]
+				"schemes": ["vault-launcher"]
 			}
 		}
 	}

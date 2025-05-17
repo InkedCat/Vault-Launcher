@@ -2,5 +2,5 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 fn main() {
-    dedi_launcher_lib::run()
+    vault_launcher_lib::run()
 }
