@@ -30,7 +30,7 @@ Vault Launcher is a cross-platform desktop **Minecraft** launcher built with Tau
 - [Node.js](https://nodejs.org/en/) (v18 or later)
 - [PNPM](https://pnpm.io/) (v10.4.1 or later)
 - [Rust](https://www.rust-lang.org/tools/install) (latest stable)
-- OS-specific Tauri dependencies (see [Tauri setup docs](https://tauri.app/v2/guides/getting-started/prerequisites))
+- OS-specific Tauri dependencies (see [Tauri setup docs](https://tauri.app/start/prerequisites/#system-dependencies))
 
 ### Setup
 
