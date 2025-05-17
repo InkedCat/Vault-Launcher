@@ -1,13 +1,17 @@
 # Vault Launcher
 
-Vault Launcher is a cross-platform desktop application built with Tauri, SvelteKit, and TypeScript. It provides a modern UI for launching and managing vault applications.
+Vault Launcher is a cross-platform desktop **Minecraft** launcher built with Tauri, SvelteKit, and TypeScript. It provides a modern UI for launching and managing Vaults (Modded Minecraft Clients).
+
+## Disclaimer
+
+**Important:** Vault Launcher only supports premium accounts. It does not and will never support cracked accounts. This application is designed exclusively to work with legitimate, properly licensed accounts. Any modification of the application to allow cracked accounts is not my responsibility and will result in legal consequences.
 
 ## Features
 
 - Modern, responsive UI built with SvelteKit and Tailwind CSS
 - 3D visualization capabilities through Three.js and Threlte
-- Cross-platform compatibility (Windows, macOS, Linux)
-- Deep linking support with custom URL scheme (`vault-launcher://`)
+- Currently Windows only (macOS and Linux support planned for future releases)
+- Microsoft Authentication via deep linking
 - Internationalization ready with Inlang/Paraglide
 - Dark/light mode support
 
