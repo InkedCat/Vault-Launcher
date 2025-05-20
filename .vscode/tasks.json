@@ -1,0 +1,46 @@
+{
+	// See https://go.microsoft.com/fwlink/?LinkId=733558
+	// for the documentation about the tasks.json format
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "ui:dev",
+			"type": "shell",
+			// `dev` keeps running in the background
+			// ideally you should also configure a `problemMatcher`
+			// see https://code.visualstudio.com/docs/editor/tasks#_can-a-background-task-be-used-as-a-prelaunchtask-in-launchjson
+			"isBackground": true,
+			// change this to your `beforeDevCommand`:
+			"command": "pnpm",
+			"args": ["dev"],
+			"problemMatcher": {
+				"owner": "vite",
+				"fileLocation": ["relative", "${workspaceFolder}"],
+				"pattern": [
+					{
+						"regexp": "ERROR in (.*?)(\\((\\d+),(\\d+)\\))?",
+						"file": 1,
+						"line": 3,
+						"column": 4
+					},
+					{
+						"regexp": ".*",
+						"message": 0
+					}
+				],
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": "^.*VITE.*Dev server running at:",
+					"endsPattern": "^.*ready in.*"
+				}
+			}
+		},
+		{
+			"label": "ui:build",
+			"type": "shell",
+			// change this to your `beforeBuildCommand`:
+			"command": "pnpm",
+			"args": ["build"]
+		}
+	]
+}
