@@ -16,6 +16,7 @@ crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]
 tauri-build = { version = "2.2.0", features = [] }
+dotenv = "0.15.0"
 
 [dependencies]
 tauri = { version = "2.5", features = ["tray-icon"] }
@@ -25,6 +26,16 @@ serde_json = "1.0"
 tokio = { version = "1.45", features = ["full"] }
 reqwest = { version = "0.12", features = ["json"] }
 tauri-plugin-deep-link = "2.2"
+rand = "0.9.1"
+base64 = "0.22.1"
+sha2 = "0.10.8"
+anyhow = "1.0.98"
+lazy_static = "1.5.0"
+log = "0.4.27"
+tauri-plugin-log = "2"
+serde_urlencoded = "0.7.1"
+thiserror = "2.0.12"
+serde_qs = "0.15.0"
 
 [target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
 tauri-plugin-single-instance = { version = "2.2", features = ["deep-link"] }
