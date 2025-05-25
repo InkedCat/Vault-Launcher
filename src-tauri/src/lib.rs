@@ -1,55 +1,63 @@
-mod auth;
+mod account;
+mod deeplink;
+mod states;
 mod tray_icon;
+mod utils;
 
-use tauri::{AppHandle, Manager, Window, WindowEvent};
-use tauri_plugin_deep_link::DeepLinkExt;
+use tauri::{Manager, Window, WindowEvent, Wry};
+
+use account::auth;
 
 pub static MAIN_WINDOW_LABEL: &str = "main";
 
-fn handle_window_event(window: &Window, event: &WindowEvent) {
+fn handle_window_event(window: &Window, event: &WindowEvent) -> () {
     match event {
-        WindowEvent::CloseRequested { api, .. } => {
-            if let Err(e) = window.hide() {
-                eprintln!("Failed to minimize window: {:?}", e);
+        WindowEvent::CloseRequested { api, .. } => match window.hide() {
+            Ok(_) => {
+                api.prevent_close();
             }
-            api.prevent_close();
-        }
+            Err(e) => {
+                log::error!("failed to minimize window: {:?}", e);
+            }
+        },
         _ => {}
     }
 }
 
-async fn setup(app: &AppHandle) -> Result<(), tauri_plugin_deep_link::Error> {
-    #[cfg(any(windows, target_os = "linux"))]
-    {
-        app.deep_link().register_all()?;
-    }
-    app.deep_link().on_open_url(|event| {
-        println!("Open URL: {:?}", event.urls());
-    });
-    Ok(())
-}
-
-#[cfg_attr(mobile, tauri::mobile_entry_point)]
-pub fn run() {
-    let mut builder = tauri::Builder::default();
-
-    #[cfg(desktop)]
-    {
-        builder = builder.plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| {
-            let _ = app.get_webview_window("main")
-                       .expect("no main window")
-                       .set_focus();
-        }));
-    }
-
+fn setup_plugins(builder: tauri::Builder<Wry>) -> tauri::Builder<Wry> {
     builder
         .plugin(tauri_plugin_deep_link::init())
         .plugin(tauri_plugin_opener::init())
+        .plugin(
+            tauri_plugin_log::Builder::new()
+                .level(log::LevelFilter::Debug)
+                .build(),
+        )
+        .plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| {
+            let _ = app
+                .get_webview_window("main")
+                .expect("no main window")
+                .set_focus();
+        }))
+}
+
+pub fn register_commands(builder: tauri::Builder<Wry>) -> tauri::Builder<Wry> {
+    builder.invoke_handler(tauri::generate_handler!(auth::open_microsoft_oauth))
+}
+
+pub fn run() {
+    let mut builder = tauri::Builder::default();
+
+    builder = setup_plugins(builder);
+    builder = register_commands(builder);
+
+    builder
         .on_window_event(handle_window_event)
-        .invoke_handler(tauri::generate_handler![])
         .setup(|app| {
-            tauri::async_runtime::block_on(setup(app.handle()))?;
-            tray_icon::enable_tray(app)?;
+            deeplink::setup(app.handle())?;
+            states::create_states(app.handle());
+            tray_icon::setup(app)?;
+
             Ok(())
         })
         .run(tauri::generate_context!())
