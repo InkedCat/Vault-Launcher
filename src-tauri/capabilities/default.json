@@ -1,16 +1,27 @@
 {
-	"$schema": "../gen/schemas/desktop-schema.json",
-	"identifier": "default",
-	"description": "Capability for the main window",
-	"windows": ["main"],
-	"permissions": [
-		"core:default",
-		"core:window:default",
-		"core:window:allow-start-dragging",
-		"core:window:allow-minimize",
-		"core:window:allow-toggle-maximize",
-		"core:window:allow-close",
-		"opener:default",
-		"deep-link:default"
-	]
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "Capability for the main window",
+  "windows": [
+    "main"
+  ],
+  "permissions": [
+    "core:default",
+    "core:window:default",
+    "core:window:allow-start-dragging",
+    "core:window:allow-minimize",
+    "core:window:allow-toggle-maximize",
+    "core:window:allow-close",
+    "opener:default",
+    "deep-link:default",
+    {
+      "identifier": "opener:allow-open-url",
+      "allow": [
+        {
+          "url": "https://login.microsoftonline.com/consumers/oauth2/v2.0/authorize"
+        }
+      ]
+    },
+    "log:default"
+  ]
 }
