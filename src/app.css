@@ -37,6 +37,7 @@
 		--titlebar-background: 0 0% 98%;
 		--titlebar-accent: 240 4.8% 95.9%;
 		--titlebar-border: 220 13% 91%;
+		--titlebar-height: 32px;
 	}
 
 	.dark {
