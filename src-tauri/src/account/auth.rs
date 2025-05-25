@@ -25,11 +25,13 @@ pub fn open_microsoft_oauth(
         .map(|b| format!("{:02x}", b))
         .collect::<String>();
 
-    let mut auth_data = auth_data.lock().unwrap();
+    let mut auth_data = auth_data
+        .lock()
+        .expect("mutex already locked by the current thread");
     auth_data.state = Some(state.clone());
 
     let pcke = pcke_helper::generate_pcke_challenge();
-    auth_data.code_verifier = Some(pcke.code_verifier.clone());
+    auth_data.code_verifier = Some(pcke.code_verifier);
 
     let url = format!(
         "{}?client_id={}&response_type=code&redirect_uri={}&scope={}&state={}&code_challenge={}&code_challenge_method=S256",
@@ -38,5 +40,7 @@ pub fn open_microsoft_oauth(
 
     log::debug!("Opening URL in browser: {}", url);
 
-    app_handle.opener().open_url(url, None::<&str>).unwrap();
+    if let Err(e) = app_handle.opener().open_url(url, None::<&str>) {
+        log::error!("failed to open URL in default browser: {}", e);
+    }
 }
