@@ -23,7 +23,7 @@ fn menu_handler(app: &AppHandle, event: MenuEvent) {
         }
     }
 }
-fn show_window(window: WebviewWindow) -> () {
+fn show_window(window: WebviewWindow) {
     match window.is_visible() {
         Ok(true) => (),
         Ok(false) => {

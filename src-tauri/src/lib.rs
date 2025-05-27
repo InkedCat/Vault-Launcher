@@ -10,7 +10,7 @@ use account::microsoft;
 
 pub static MAIN_WINDOW_LABEL: &str = "main";
 
-fn handle_window_event(window: &Window, event: &WindowEvent) -> () {
+fn handle_window_event(window: &Window, event: &WindowEvent) {
     match event {
         WindowEvent::CloseRequested { api, .. } => match window.hide() {
             Ok(_) => {

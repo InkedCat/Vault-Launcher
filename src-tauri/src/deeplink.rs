@@ -12,7 +12,7 @@ pub enum DeeplinkSetupError {
 
 pub static DEEPLINK_SCHEME: &str = "vault-launcher";
 
-fn handle_deep_link(event: OpenUrlEvent, app_handle: &AppHandle) -> () {
+fn handle_deep_link(event: OpenUrlEvent, app_handle: &AppHandle) {
     let urls: Vec<tauri::Url> = event.urls().into_iter().collect();
 
     for url in urls {

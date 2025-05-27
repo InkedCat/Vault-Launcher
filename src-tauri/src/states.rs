@@ -8,7 +8,7 @@ pub struct AuthData {
     pub code_verifier: Option<String>,
 }
 
-pub fn create_states(app_handle: &tauri::AppHandle) -> () {
+pub fn create_states(app_handle: &tauri::AppHandle) {
     let auth_data = Mutex::new(AuthData {
         state: None,
         code_verifier: None,
