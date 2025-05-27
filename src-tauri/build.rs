@@ -15,7 +15,5 @@ fn main() {
         microsoft_client_id
     );
 
-    println!("cargo:rerun-if-changed=.env");
-
     tauri_build::build()
 }
