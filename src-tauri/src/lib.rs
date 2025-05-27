@@ -6,7 +6,7 @@ mod utils;
 
 use tauri::{Manager, Window, WindowEvent, Wry};
 
-use account::auth;
+use account::microsoft;
 
 pub static MAIN_WINDOW_LABEL: &str = "main";
 
@@ -42,7 +42,7 @@ fn setup_plugins(builder: tauri::Builder<Wry>) -> tauri::Builder<Wry> {
 }
 
 pub fn register_commands(builder: tauri::Builder<Wry>) -> tauri::Builder<Wry> {
-    builder.invoke_handler(tauri::generate_handler!(auth::open_microsoft_oauth))
+    builder.invoke_handler(tauri::generate_handler!(microsoft::open_microsoft_oauth))
 }
 
 pub fn run() {

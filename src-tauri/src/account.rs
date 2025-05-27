@@ -1,5 +1,6 @@
-pub mod auth;
 pub mod login;
+pub mod microsoft;
+pub mod xbox;
 
 const MICROSOFT_OAUTH_API_URL: &str = "https://login.microsoftonline.com/consumers/oauth2/v2.0";
 const XBOX_LIVE_URL: &str = "https://user.auth.xboxlive.com/";
