@@ -10,6 +10,7 @@ use account::microsoft;
 
 pub static MAIN_WINDOW_LABEL: &str = "main";
 
+#[allow(clippy::single_match)]
 fn handle_window_event(window: &Window, event: &WindowEvent) {
     match event {
         WindowEvent::CloseRequested { api, .. } => match window.hide() {

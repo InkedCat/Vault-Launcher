@@ -12,6 +12,7 @@ pub enum DeeplinkSetupError {
 
 pub static DEEPLINK_SCHEME: &str = "vault-launcher";
 
+#[allow(clippy::single_match)]
 fn handle_deep_link(event: OpenUrlEvent, app_handle: &AppHandle) {
     let urls: Vec<tauri::Url> = event.urls().into_iter().collect();
 
