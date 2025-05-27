@@ -1,5 +1,5 @@
 use std::{
-    fmt::{Debug, Formatter},
+    fmt::{Debug, Formatter, Write},
     sync::Mutex,
 };
 
@@ -105,8 +105,10 @@ pub fn open_microsoft_oauth(
 
     let state = rand::random::<[u8; 32]>()
         .iter()
-        .map(|b| format!("{:02x}", b))
-        .collect::<String>();
+        .fold(String::new(), |mut acc, b| {
+            write!(&mut acc, "{:02x}", b).unwrap();
+            acc
+        });
 
     let mut auth_data = auth_data
         .lock()
