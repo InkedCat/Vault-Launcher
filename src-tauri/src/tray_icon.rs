@@ -41,7 +41,8 @@ fn show_window(window: WebviewWindow) {
     }
 }
 
-fn tray_icon_handler(icon: &TrayIcon, event: TrayIconEvent) -> () {
+#[allow(clippy::single_match)]
+fn tray_icon_handler(icon: &TrayIcon, event: TrayIconEvent) {
     match event {
         TrayIconEvent::Click { .. } => {
             if let Some(window) = icon.app_handle().get_webview_window(MAIN_WINDOW_LABEL) {
