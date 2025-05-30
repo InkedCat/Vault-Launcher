@@ -23,7 +23,6 @@
 
 <svelte:window bind:innerWidth={windowWidth} />
 
-<ModeWatcher />
 <Sidebar.Provider open={windowWidth >= 1024}>
 	<AppSidebar />
 	<div class="flex w-full flex-1 flex-col">
