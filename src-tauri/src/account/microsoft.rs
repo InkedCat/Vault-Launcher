@@ -1,131 +1,125 @@
-use std::{
-    fmt::{Debug, Formatter, Write},
-    sync::Mutex,
-};
+pub mod oauth;
+pub mod xbox_live;
+
+use std::sync::Mutex;
 
 use lazy_static::lazy_static;
-use serde::{Deserialize, Serialize};
-use tauri_plugin_opener::OpenerExt;
+use serde::Deserialize;
+use tauri::Manager;
+use thiserror::Error;
 
 use crate::states::AuthData;
-use crate::utils::pcke_helper;
 
-use super::{MICROSOFT_CLIENT_ID, REDIRECT_URI};
+const MICROSOFT_OAUTH_API_URL: &str = "https://login.microsoftonline.com/consumers/oauth2/v2.0";
+const XBOX_LIVE_AUTH_DOMAIN: &str = "auth.xboxlive.com";
+
+const MICROSOFT_CLIENT_ID: &str = env!("MICROSOFT_CLIENT_ID", "MICROSOFT_CLIENT_ID is not defined");
+const REDIRECT_URI: &str = "vault-launcher://account/login/callback";
 
 lazy_static! {
     static ref MICROSOFT_OAUTH_AUTHORIZE_URL: String =
-        format!("{}/authorize", crate::account::MICROSOFT_OAUTH_API_URL);
-    static ref MICROSOFT_OAUTH_TOKEN_URL: String =
-        format!("{}/token", crate::account::MICROSOFT_OAUTH_API_URL);
+        format!("{}/authorize", MICROSOFT_OAUTH_API_URL);
+    static ref MICROSOFT_OAUTH_TOKEN_URL: String = format!("{}/token", MICROSOFT_OAUTH_API_URL);
 }
 
-#[derive(Serialize)]
-pub struct OAuthTokenRequest {
-    client_id: String,
-    scope: String,
+#[derive(Error, Debug)]
+pub enum LoginCallbackError {
+    #[error("Failed to parse query: {0}")]
+    InvalidQueryFormat(#[from] serde_qs::Error),
+    #[error("State mismatch: {0} != {1}")]
+    StateMismatch(String, String),
+    #[error("No state found, cannot verify login")]
+    NoStateFound,
+    #[error("No code verifier found, cannot verify login")]
+    NoCodeVerifierFound,
+    #[error("Failed to request access token: {0}")]
+    TokenRequestError(oauth::OAuthTokenError),
+    #[error("Failed to login to Xbox Live: {0}")]
+    XboxLiveLoginError(xbox_live::XboxLiveError),
+}
+
+#[derive(Deserialize, Debug)]
+struct LoginCallback {
+    state: String,
     code: String,
-    redirect_uri: String,
-    grant_type: String,
-    code_verifier: String,
 }
 
-impl Debug for OAuthTokenRequest {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "OAuthTokenRequest {{ client_id: {:?}, scope: {:?}, code: [Redacted], redirect_uri: {:?}, grant_type: {:?}, code_verifier: [Redacted] }}", self.client_id, self.scope, self.redirect_uri, self.grant_type)
-    }
-}
+pub async fn handle_callback(
+    app_handle: &tauri::AppHandle,
+    query: &str,
+) -> Result<(), LoginCallbackError> {
+    let params = serde_qs::from_str::<LoginCallback>(query)?;
 
-#[derive(Deserialize)]
-pub struct OAuthTokenResponse {
-    pub access_token: String,
-    pub token_type: String,
-    pub expires_in: u32,
-    pub ext_expires_in: u32,
-    pub scope: String,
-    pub refresh_token: String,
-}
+    let auth_mutex = app_handle.state::<Mutex<AuthData>>();
+    let (state, code_verifier) = {
+        let auth_data = auth_mutex.lock().expect("lock is poisoned");
 
-impl Debug for OAuthTokenResponse {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "OAuthTokenResponse {{ access_token: [Redacted], token_type: {:?}, expires_in: {:?}, ext_expires_in: {:?}, scope: {:?}, refresh_token: [Redacted] }}", self.token_type, self.expires_in, self.ext_expires_in, self.scope)
-    }
-}
+        let state = auth_data.state.clone().ok_or_else(|| {
+            log::error!("No state found, cannot verify login");
+            LoginCallbackError::NoStateFound
+        })?;
 
-pub async fn request_access_token(
-    code: &str,
-    code_verifier: &str,
-) -> Result<OAuthTokenResponse, anyhow::Error> {
-    let client = reqwest::Client::new();
+        let code_verifier = auth_data.code_verifier.clone().ok_or_else(|| {
+            log::error!("No code verifier found, cannot verify login");
+            LoginCallbackError::NoCodeVerifierFound
+        })?;
 
-    let form = OAuthTokenRequest {
-        client_id: MICROSOFT_CLIENT_ID.to_string(),
-        scope: "XboxLive.signin".to_string(),
-        code: code.to_string(),
-        redirect_uri: REDIRECT_URI.to_string(),
-        grant_type: "authorization_code".to_string(),
-        code_verifier: code_verifier.to_string(),
+        (state, code_verifier)
     };
 
-    log::debug!(
-        "Sending request to Microsoft OAuth Token URL with params: {:?}",
-        form
-    );
-
-    let response = client
-        .post(MICROSOFT_OAUTH_TOKEN_URL.clone())
-        .form(&form)
-        .send()
-        .await?;
-
-    if response.error_for_status_ref().is_err() {
-        log::error!(
-            "Unable to retrieve access token: {:?}",
-            response.text().await?
-        );
-        return Err(anyhow::anyhow!("Unable to retrieve access token"));
+    if state != params.state {
+        log::error!("State mismatch: {} != {}", state, params.state);
+        return Err(LoginCallbackError::StateMismatch(
+            state.to_string(),
+            params.state.to_string(),
+        ));
     }
 
-    let content: OAuthTokenResponse = match response.json().await {
-        Ok(content) => content,
-        Err(e) => {
-            log::error!("Unable to parse response: {:?}", e);
-            return Err(anyhow::anyhow!("Unable to parse response"));
+    let oauth_response = match oauth::request_access_token(&params.code, &code_verifier).await {
+        Ok(response) => response,
+        Err(error) => {
+            log::error!("Failed to request access token: {:?}", error);
+            return Err(LoginCallbackError::TokenRequestError(error));
         }
     };
 
-    Ok(content)
-}
+    let xbox_live_response = match xbox_live::login_to_xbox_live(&oauth_response.access_token).await
+    {
+        Ok(response) => response,
+        Err(error) => {
+            log::error!("Failed to login to Xbox Live: {:?}", error);
+            return Err(LoginCallbackError::XboxLiveLoginError(error));
+        }
+    };
 
-#[tauri::command]
-pub fn open_microsoft_oauth(
-    app_handle: tauri::AppHandle,
-    auth_data: tauri::State<Mutex<AuthData>>,
-) {
-    let scope = "XboxLive.signin+Xboxlive.offline_access";
+    let xsts_response = match xbox_live::get_xsts_token(&xbox_live_response.token).await {
+        Ok(response) => response,
+        Err(error) => {
+            log::error!("Failed to get XSTS token: {:?}", error);
+            return Err(LoginCallbackError::XboxLiveLoginError(error));
+        }
+    };
 
-    let state = rand::random::<[u8; 32]>()
-        .iter()
-        .fold(String::new(), |mut acc, b| {
-            write!(&mut acc, "{:02x}", b).unwrap();
-            acc
-        });
+    let xbox_live_uhs = xbox_live_response
+        .display_claims
+        .xui
+        .first()
+        .expect("No XUI found")
+        .uhs
+        .clone();
+    let xsts_uhs = xsts_response
+        .display_claims
+        .xui
+        .first()
+        .expect("No XUI found")
+        .uhs
+        .clone();
 
-    let mut auth_data = auth_data
-        .lock()
-        .expect("mutex already locked by the current thread");
-    auth_data.state = Some(state.clone());
-
-    let pcke = pcke_helper::generate_pcke_challenge();
-    auth_data.code_verifier = Some(pcke.code_verifier);
-
-    let url = format!(
-        "{}?client_id={}&response_type=code&redirect_uri={}&scope={}&state={}&code_challenge={}&code_challenge_method=S256",
-        *MICROSOFT_OAUTH_AUTHORIZE_URL, MICROSOFT_CLIENT_ID, REDIRECT_URI, scope, state, pcke.code_challenge
-    );
-
-    log::debug!("Opening URL in browser: {}", url);
-
-    if let Err(e) = app_handle.opener().open_url(url, None::<&str>) {
-        log::error!("failed to open URL in default browser: {}", e);
+    if xbox_live_uhs != xsts_uhs {
+        log::error!("XSTS uhs mismatch: {:?}", xsts_response.token);
     }
+
+    println!("XSTS response: {:?}", xsts_response.token);
+
+    Ok(())
 }
