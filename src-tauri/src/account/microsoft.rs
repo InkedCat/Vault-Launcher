@@ -3,7 +3,6 @@ pub mod xbox_live;
 
 use std::sync::Mutex;
 
-use lazy_static::lazy_static;
 use serde::Deserialize;
 use tauri::Manager;
 use thiserror::Error;
@@ -15,12 +14,6 @@ const XBOX_LIVE_AUTH_DOMAIN: &str = "auth.xboxlive.com";
 
 const MICROSOFT_CLIENT_ID: &str = env!("MICROSOFT_CLIENT_ID", "MICROSOFT_CLIENT_ID is not defined");
 const REDIRECT_URI: &str = "vault-launcher://account/login/callback";
-
-lazy_static! {
-    static ref MICROSOFT_OAUTH_AUTHORIZE_URL: String =
-        format!("{}/authorize", MICROSOFT_OAUTH_API_URL);
-    static ref MICROSOFT_OAUTH_TOKEN_URL: String = format!("{}/token", MICROSOFT_OAUTH_API_URL);
-}
 
 #[derive(Error, Debug)]
 pub enum LoginCallbackError {
