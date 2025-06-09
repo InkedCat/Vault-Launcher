@@ -18,21 +18,25 @@ lazy_static! {
 
 const SCOPE: &str = "XboxLive.signin Xboxlive.offline_access";
 
+fn generate_state() -> String {
+    rand::random::<[u8; 32]>()
+        .iter()
+        .fold(String::new(), |mut acc, b| {
+            write!(&mut acc, "{:02x}", b).unwrap();
+            acc
+        })
+}
+
 #[tauri::command]
 pub fn open_microsoft_login(
     app_handle: tauri::AppHandle,
     auth_data: tauri::State<Mutex<AuthData>>,
 ) {
-    let state = rand::random::<[u8; 32]>()
-        .iter()
-        .fold(String::new(), |mut acc, b| {
-            write!(&mut acc, "{:02x}", b).unwrap();
-            acc
-        });
+    let state = generate_state();
 
     let mut auth_data = auth_data
         .lock()
-        .expect("mutex already locked by the current thread");
+        .expect("Mutex should not have been locked by the current thread");
     auth_data.state = Some(state.clone());
 
     let pcke = pcke_helper::generate_pcke_challenge();
@@ -40,7 +44,12 @@ pub fn open_microsoft_login(
 
     let url = format!(
         "{}?client_id={}&response_type=code&redirect_uri={}&scope={}&state={}&code_challenge={}&code_challenge_method=S256",
-        *MICROSOFT_OAUTH_AUTHORIZE_URL, MICROSOFT_CLIENT_ID, REDIRECT_URI, SCOPE, state, pcke.code_challenge
+        MICROSOFT_OAUTH_AUTHORIZE_URL.clone(),
+        MICROSOFT_CLIENT_ID,
+        REDIRECT_URI,
+        SCOPE,
+        state,
+        pcke.code_challenge
     );
 
     log::debug!("Opening URL in browser: {}", url);
