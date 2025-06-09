@@ -1,4 +1,3 @@
-#![deny(unused_imports)]
 #![warn(clippy::unwrap_used)]
 
 mod account;
@@ -51,9 +50,10 @@ fn setup_plugins(builder: tauri::Builder<Wry>) -> tauri::Builder<Wry> {
 }
 
 pub fn register_commands(builder: tauri::Builder<Wry>) -> tauri::Builder<Wry> {
-    builder.invoke_handler(tauri::generate_handler!(
-        microsoft::oauth::open_microsoft_login
-    ))
+    builder.invoke_handler(tauri::generate_handler![
+        microsoft::oauth::open_microsoft_login,
+        utils::window_init::init_window,
+    ])
 }
 
 pub fn run() {
