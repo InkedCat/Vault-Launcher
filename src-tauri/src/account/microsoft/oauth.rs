@@ -1,22 +1,20 @@
-use std::fmt::Write;
-use std::sync::Mutex;
-
 use lazy_static::lazy_static;
 use serde::{Deserialize, Serialize};
+use std::fmt::Write;
+use std::sync::Mutex;
 use tauri_plugin_opener::OpenerExt;
 use thiserror::Error;
 
+use super::{MICROSOFT_CLIENT_ID, MICROSOFT_OAUTH_API_URL, REDIRECT_URI};
 use crate::{states::AuthData, utils::pcke_helper, REQWEST_CLIENT};
 
-use super::{MICROSOFT_CLIENT_ID, MICROSOFT_OAUTH_API_URL, REDIRECT_URI};
+const SCOPE: &str = "XboxLive.signin Xboxlive.offline_access";
 
 lazy_static! {
     static ref MICROSOFT_OAUTH_AUTHORIZE_URL: String =
         format!("{}/authorize", MICROSOFT_OAUTH_API_URL);
     static ref MICROSOFT_OAUTH_TOKEN_URL: String = format!("{}/token", MICROSOFT_OAUTH_API_URL);
 }
-
-const SCOPE: &str = "XboxLive.signin Xboxlive.offline_access";
 
 fn generate_state() -> String {
     rand::random::<[u8; 32]>()
