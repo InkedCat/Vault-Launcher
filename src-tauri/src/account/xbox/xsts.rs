@@ -42,9 +42,23 @@ pub struct XSTSResponse {
 
 pub async fn get_xsts_token(xbox_live_token: &str) -> Result<XSTSResponse, XboxLiveError> {
     let mut headers: HeaderMap = HeaderMap::new();
-    headers.insert("Content-Type", "application/json".parse().unwrap());
-    headers.insert("Accept", "application/json".parse().unwrap());
-    headers.insert("x-xbl-contract-version", "1".parse().unwrap());
+    headers.insert(
+        "Content-Type",
+        "application/json"
+            .parse()
+            .expect("Failed to parse content type header"),
+    );
+    headers.insert(
+        "Accept",
+        "application/json"
+            .parse()
+            .expect("Failed to parse accept header"),
+    );
+    headers.insert(
+        "x-xbl-contract-version",
+        "1".parse()
+            .expect("Failed to parse contract version header"),
+    );
 
     let body = json!(XSTSRequest {
         properties: XSTSRequestProperties {
