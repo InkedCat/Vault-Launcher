@@ -16,7 +16,8 @@ A clear and concise description of what you want to happen.
 Please select the category that best describes your feature request:
 
 - [ ] Launcher UI/UX
-- [ ] Vault/Profile Management
+- [ ] Vault/
+- [ ] Profile Management
 - [ ] Authentication/Account Management
 - [ ] Performance/Optimization
 - [ ] Settings/Configuration
