@@ -42,8 +42,8 @@ jobs:
           cache: 'pnpm'
       - name: Install Frontend dependencies
         run: pnpm install --frozen-lockfile
-      - name: Check Frontend Types
-        run: pnpm run check-types
+      - name: Check Svelte & Types
+        run: pnpm run check
       - name: Lint Frontend
         run: pnpm run lint
 
