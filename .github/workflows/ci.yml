@@ -25,16 +25,16 @@ jobs:
     steps:
       - name: Checkout source code
         uses: actions/checkout@v5
+
       - name: Setup Rust stable
         uses: dtolnay/rust-toolchain@stable
         with:
           targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
       - name: Initialize cache
         uses: swatinem/rust-cache@v2
+
       - name: Install pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 10
       - name: Use Node.js 24
         uses: actions/setup-node@v4
         with:
@@ -46,7 +46,13 @@ jobs:
         run: pnpm run check-types
       - name: Lint Frontend
         run: pnpm run lint
-      - name: Test VaultLauncher
+
+      - name: Install Linux dependencies
+        if: matrix.platform == 'ubuntu-24.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.0-dev libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+      - name: Test VaultLauncher App
         uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
