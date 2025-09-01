@@ -7,38 +7,30 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  cargo_build:
-    name: Cargo Build
+  backend_ci:
+    name: VaultLauncher CI
     strategy:
+      fail-fast: false
       matrix:
-        os: [ubuntu-24.04, windows-2022, macos-15]
-    runs-on: ${{ matrix.os }}
+        include:
+          - platform: 'macos-15' # for Arm based macs (M1 and above).
+            args: '--target aarch64-apple-darwin'
+          - platform: 'macos-15' # for Intel based macs.
+            args: '--target x86_64-apple-darwin'
+          - platform: 'ubuntu-24.04'
+            args: ''
+          - platform: 'windows-2022'
+            args: ''
+    runs-on: ${{ matrix.platform }}
     steps:
-      - uses: actions/checkout@v5
-      - run: rustup toolchain install stable --profile minimal
-      - uses: Swatinem/rust-cache@v2
-      - run: cargo build --verbose
-  cargo_test:
-    name: Cargo Test
-    strategy:
-      matrix:
-        os: [ubuntu-24.04, windows-2022, macos-15]
-    runs-on: ${{ matrix.os }}
-    needs:
-      - cargo_build
-    steps:
-      - uses: actions/checkout@v5
-      - run: rustup toolchain install stable --profile minimal
-      - uses: Swatinem/rust-cache@v2
-      - run: cargo test --verbose
-  types:
-    name: Test Types
-    strategy:
-      matrix:
-        os: [ubuntu-24.04, windows-2022, macos-15]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v5
+      - name: Checkout source code
+        uses: actions/checkout@v5
+      - name: Setup Rust stable
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+      - name: Initialize cache
+        uses: swatinem/rust-cache@v2
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
@@ -48,28 +40,15 @@ jobs:
         with:
           node-version: 24
           cache: 'pnpm'
-      - name: Install dependencies
-        run: pnpm install
-      - name: ESlint
-        run: pnpm lint
-  lint:
-    name: Lint
-    strategy:
-      matrix:
-        os: [ubuntu-24.04, windows-2022, macos-15]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v5
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
+      - name: Install Frontend dependencies*
+        run: pnpm install --frozen-lockfile
+      - name: Check Frontend Types
+        run: pnpm run check-types
+      - name: Lint Frontend
+        run: pnpm run lint
+      - name: Test VaultLauncher
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          version: 10
-      - name: Use Node.js 24
-        uses: actions/setup-node@v4
-        with:
-          node-version: 24
-          cache: 'pnpm'
-      - name: Install dependencies
-        run: pnpm install
-      - name: ESlint
-        run: pnpm lint
+          args: ${{ matrix.args }}
