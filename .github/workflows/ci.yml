@@ -40,7 +40,7 @@ jobs:
         with:
           node-version: 24
           cache: 'pnpm'
-      - name: Install Frontend dependencies*
+      - name: Install Frontend dependencies
         run: pnpm install --frozen-lockfile
       - name: Check Frontend Types
         run: pnpm run check-types
