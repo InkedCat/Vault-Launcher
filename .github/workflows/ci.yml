@@ -58,5 +58,6 @@ jobs:
         uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MICROSOFT_CLIENT_ID: 'testing'
         with:
           args: ${{ matrix.args }}
