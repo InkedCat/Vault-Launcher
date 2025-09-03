@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { ModeWatcher } from 'mode-watcher';
 	import { onNavigate } from '$app/navigation';
-	import * as Sidebar from '@/components/ui/sidebar';
-	import { AppSidebar } from '@/components/navbar';
-	import { Titlebar } from '@/components';
+	import * as Sidebar from '$lib/components/ui/sidebar';
+	import { AppSidebar } from '$lib/components/navbar';
+	import { Titlebar } from '$lib/components';
 
 	let { children } = $props();
 

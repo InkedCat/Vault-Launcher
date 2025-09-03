@@ -2,7 +2,7 @@
 	import { invoke } from '@tauri-apps/api/core';
 
 	import type { PageData } from './$types';
-	import { LocaleSwitch, LightSwitch, MicrosoftConnect } from '@/components';
+	import { LocaleSwitch, LightSwitch, MicrosoftConnect } from '$lib/components';
 
 	function openLogin() {
 		invoke('open_microsoft_login');
@@ -12,7 +12,7 @@
 </script>
 
 <div class="relative flex size-full flex-col items-center justify-center">
-	<div class="absolute left-0 top-0 flex w-full justify-between px-4">
+	<div class="absolute top-0 left-0 flex w-full justify-between px-4">
 		<LocaleSwitch />
 		<LightSwitch />
 	</div>

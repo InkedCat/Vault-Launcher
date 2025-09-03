@@ -1,7 +1,7 @@
 <script lang="ts">
-	import * as Sidebar from '@/components/ui/sidebar';
-	import * as DropdownMenu from '@/components/ui/dropdown-menu';
-	import * as Avatar from '@/components/ui/avatar';
+	import * as Sidebar from '$lib/components/ui/sidebar';
+	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
+	import * as Avatar from '$lib/components/ui/avatar';
 	import { toggleMode } from 'mode-watcher';
 	import {
 		Sun,
@@ -43,7 +43,7 @@
 				{/snippet}
 			</DropdownMenu.Trigger>
 			<DropdownMenu.Content
-				class="w-[--bits-dropdown-menu-anchor-width] min-w-56 rounded-lg"
+				class="w-(--bits-dropdown-menu-anchor-width) min-w-56 rounded-lg"
 				side="right"
 				align="end"
 				sideOffset={4}

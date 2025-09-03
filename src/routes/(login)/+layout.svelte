@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Titlebar } from '@/components';
+	import { Titlebar } from '$lib/components';
 	import type { LayoutData } from './$types';
 	import type { Snippet } from 'svelte';
 

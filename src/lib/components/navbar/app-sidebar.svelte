@@ -1,5 +1,5 @@
 <script lang="ts">
-	import * as Sidebar from '@/components/ui/sidebar';
+	import * as Sidebar from '$lib/components/ui/sidebar';
 	import NavProfile from './nav-profile.svelte';
 	import ServerSwitcher from './server-switcher.svelte';
 	import NavMain from './nav-main.svelte';
