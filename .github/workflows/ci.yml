@@ -57,6 +57,7 @@ jobs:
 
       - name: Check Svelte & Types
         run: pnpm run check
+
       # - name: Lint Frontend
       #   run: pnpm run lint
 
