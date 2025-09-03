@@ -35,17 +35,20 @@ Vault Launcher is a cross-platform desktop **Minecraft** launcher built with Tau
 ### Setup
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/yourusername/vault-launcher.git
    cd vault-launcher
    ```
 
 2. Install dependencies:
+
    ```bash
    pnpm install
    ```
 
 3. Start the development server:
+
    ```bash
    pnpm dev
    ```

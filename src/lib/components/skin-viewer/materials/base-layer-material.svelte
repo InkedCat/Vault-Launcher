@@ -10,9 +10,9 @@
 	const { texture }: BaseLayerProps = $props();
 </script>
 
-<T.MeshStandardMaterial 
-	map={texture} 
-	side={FrontSide} 
+<T.MeshStandardMaterial
+	map={texture}
+	side={FrontSide}
 	depthWrite={true}
 	depthTest={true}
 	alphaTest={0.5}
