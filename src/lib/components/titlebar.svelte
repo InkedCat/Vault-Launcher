@@ -22,7 +22,7 @@
 
 <div
 	data-tauri-drag-region
-	class="flex h-[var(--titlebar-height)] w-full items-center justify-end border-b-[1px] border-titlebar-border
+	class="flex h-(--titlebar-height) w-full items-center justify-end border-b border-titlebar-border
 			bg-titlebar-background"
 >
 	<button
