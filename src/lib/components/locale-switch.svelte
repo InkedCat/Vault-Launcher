@@ -1,7 +1,7 @@
 <script lang="ts">
-	import * as Select from '@/components/ui/select';
-	import { platformLanguages, type Locales } from '@/constants';
-	import { locales, setLocale, getLocale } from '@/paraglide/runtime';
+	import * as Select from '$lib/components/ui/select';
+	import { platformLanguages, type Locales } from '$lib/constants';
+	import { locales, setLocale, getLocale } from '$lib/paraglide/runtime';
 	import { Earth } from 'lucide-svelte';
 
 	interface LocaleItem {

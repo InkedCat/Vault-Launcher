@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount, type Snippet } from 'svelte';
 	import type { LayoutData } from './$types';
-	import { locales, localizeHref } from '@/paraglide/runtime';
+	import { locales, localizeHref } from '$lib/paraglide/runtime';
 
 	import '../app.css';
 	import { page } from '$app/state';

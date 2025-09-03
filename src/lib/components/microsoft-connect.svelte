@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { m } from '@/paraglide/messages';
+	import { m } from '$lib/paraglide/messages';
 	import { Button } from './ui/button';
 	import { LoaderCircle } from 'lucide-svelte';
 

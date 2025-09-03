@@ -1,4 +1,4 @@
-import { locales } from '@/paraglide/runtime';
+import { locales } from '$lib/paraglide/runtime';
 
 export type Locales = (typeof locales)[number];
 

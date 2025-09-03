@@ -1,7 +1,7 @@
 <script lang="ts">
-	import * as DropdownMenu from '@/components/ui/dropdown-menu';
-	import * as Sidebar from '@/components/ui/sidebar';
-	import * as Avatar from '@/components/ui/avatar';
+	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
+	import * as Sidebar from '$lib/components/ui/sidebar';
+	import * as Avatar from '$lib/components/ui/avatar';
 	import ChevronsUpDown from 'lucide-svelte/icons/chevrons-up-down';
 	import Plus from 'lucide-svelte/icons/plus';
 	import type { ServerProfile } from './types';
@@ -49,7 +49,7 @@
 				side="right"
 				sideOffset={4}
 			>
-				<DropdownMenu.Label class="text-xs text-muted-foreground">Servers</DropdownMenu.Label>
+				<DropdownMenu.Label class="text-muted-foreground text-xs">Servers</DropdownMenu.Label>
 				{#each servers as server, index (server.name)}
 					<DropdownMenu.Item onSelect={() => (activeServer = server)} class="gap-2 p-2">
 						<div class="flex size-6 items-center justify-center rounded-sm border">
@@ -66,10 +66,10 @@
 				{/each}
 				<DropdownMenu.Separator />
 				<DropdownMenu.Item onSelect={addServer} class="gap-2 p-2">
-					<div class="flex size-6 items-center justify-center rounded-md border bg-background">
+					<div class="bg-background flex size-6 items-center justify-center rounded-md border">
 						<Plus class="size-4" />
 					</div>
-					<div class="font-medium text-muted-foreground">Add server</div>
+					<div class="text-muted-foreground font-medium">Add server</div>
 				</DropdownMenu.Item>
 			</DropdownMenu.Content>
 		</DropdownMenu.Root>
