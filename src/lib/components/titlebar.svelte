@@ -22,18 +22,18 @@
 
 <div
 	data-tauri-drag-region
-	class="flex h-(--titlebar-height) w-full items-center justify-end border-b border-titlebar-border
-			bg-titlebar-background"
+	class="border-titlebar-border bg-titlebar-background flex h-(--titlebar-height) w-full items-center justify-end
+			border-b"
 >
 	<button
 		onmousedown={minimizeWindow}
-		class="flex h-full w-11 items-center justify-center hover:bg-titlebar-accent"
+		class="hover:bg-titlebar-accent flex h-full w-11 items-center justify-center"
 	>
 		<Minus size="16" />
 	</button>
 	<button
 		onmousedown={maximizeWindow}
-		class="flex h-full w-11 items-center justify-center hover:bg-titlebar-accent"
+		class="hover:bg-titlebar-accent flex h-full w-11 items-center justify-center"
 	>
 		<Maximize size="14" />
 	</button>

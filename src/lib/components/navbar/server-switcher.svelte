@@ -49,7 +49,7 @@
 				side="right"
 				sideOffset={4}
 			>
-				<DropdownMenu.Label class="text-muted-foreground text-xs">Servers</DropdownMenu.Label>
+				<DropdownMenu.Label class="text-xs text-muted-foreground">Servers</DropdownMenu.Label>
 				{#each servers as server, index (server.name)}
 					<DropdownMenu.Item onSelect={() => (activeServer = server)} class="gap-2 p-2">
 						<div class="flex size-6 items-center justify-center rounded-sm border">
@@ -66,10 +66,10 @@
 				{/each}
 				<DropdownMenu.Separator />
 				<DropdownMenu.Item onSelect={addServer} class="gap-2 p-2">
-					<div class="bg-background flex size-6 items-center justify-center rounded-md border">
+					<div class="flex size-6 items-center justify-center rounded-md border bg-background">
 						<Plus class="size-4" />
 					</div>
-					<div class="text-muted-foreground font-medium">Add server</div>
+					<div class="font-medium text-muted-foreground">Add server</div>
 				</DropdownMenu.Item>
 			</DropdownMenu.Content>
 		</DropdownMenu.Root>
