@@ -2,7 +2,7 @@ use tauri::AppHandle;
 use tauri_plugin_deep_link::{DeepLinkExt, OpenUrlEvent};
 use thiserror::Error;
 
-use crate::account;
+// use crate::account;
 
 #[derive(Error, Debug)]
 pub enum DeeplinkSetupError {
@@ -25,7 +25,7 @@ fn handle_deep_link(event: OpenUrlEvent, app_handle: &AppHandle) {
         if let Some(host) = url.host() {
             match host.to_string().as_str() {
                 "account" => {
-                    account::handle_deep_link(app_handle, url);
+                    // account::handle_deep_link(app_handle, url);
                 }
                 _ => (),
             }

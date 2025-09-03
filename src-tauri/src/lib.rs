@@ -1,6 +1,6 @@
 #![warn(clippy::unwrap_used)]
 
-mod account;
+// mod account;
 mod deeplink;
 mod states;
 mod tray_icon;
@@ -9,7 +9,7 @@ mod utils;
 use lazy_static::lazy_static;
 use tauri::{Manager, Window, WindowEvent, Wry};
 
-use account::microsoft;
+// use account::microsoft;
 
 pub static MAIN_WINDOW_LABEL: &str = "main";
 
@@ -49,18 +49,18 @@ fn setup_plugins(builder: tauri::Builder<Wry>) -> tauri::Builder<Wry> {
         }))
 }
 
-pub fn register_commands(builder: tauri::Builder<Wry>) -> tauri::Builder<Wry> {
-    builder.invoke_handler(tauri::generate_handler![
-        microsoft::oauth::open_microsoft_login,
-        utils::window_init::init_window,
-    ])
-}
+// pub fn register_commands(builder: tauri::Builder<Wry>) -> tauri::Builder<Wry> {
+//     builder.invoke_handler(tauri::generate_handler![
+//         microsoft::oauth::open_microsoft_login,
+//         utils::window_init::init_window,
+//     ])
+// }
 
 pub fn run() {
     let mut builder = tauri::Builder::default();
 
     builder = setup_plugins(builder);
-    builder = register_commands(builder);
+    // builder = register_commands(builder);
 
     builder
         .on_window_event(handle_window_event)
