@@ -9,10 +9,10 @@
 	const { texture }: StyleLayerProps = $props();
 </script>
 
-<T.MeshStandardMaterial 
-	map={texture} 
-	side={DoubleSide} 
-	transparent 
+<T.MeshStandardMaterial
+	map={texture}
+	side={DoubleSide}
+	transparent
 	alphaTest={0.5}
 	depthWrite={true}
 	depthTest={true}
