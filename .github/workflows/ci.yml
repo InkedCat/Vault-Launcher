@@ -29,21 +29,28 @@ jobs:
       - name: Setup Rust stable
         uses: dtolnay/rust-toolchain@stable
         with:
-          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
-      - name: Initialize cache
+          targets: ${{ matrix.platform == 'macos-15' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+
+      - name: Setup Rust cache
         uses: swatinem/rust-cache@v2
+        with:
+          workspaces: './src-tauri -> target'
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
+
       - name: Use Node.js 24
         uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: 'pnpm'
+
       - name: Install Frontend dependencies
         run: pnpm install --frozen-lockfile
+
       - name: Build Paraglide
         run: pnpm run build:paraglide
+
       - name: Check Svelte & Types
         run: pnpm run check
       # - name: Lint Frontend
@@ -54,6 +61,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+
       - name: Test VaultLauncher App
         uses: tauri-apps/tauri-action@v0
         env:
