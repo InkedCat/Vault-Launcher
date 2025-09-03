@@ -2,6 +2,7 @@ import { paraglideVitePlugin } from '@inlang/paraglide-js';
 import { defineConfig } from 'vite';
 import { sveltekit } from '@sveltejs/kit/vite';
 import devtoolsJson from 'vite-plugin-devtools-json';
+import tailwindcss from '@tailwindcss/vite';
 
 const host = process.env.TAURI_DEV_HOST;
 
@@ -13,6 +14,7 @@ export default defineConfig({
 			outdir: './src/lib/paraglide',
 			strategy: ['localStorage', 'baseLocale']
 		}),
+		tailwindcss(),
 		sveltekit(),
 		devtoolsJson()
 	],
