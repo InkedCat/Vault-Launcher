@@ -1,4 +1,4 @@
-name: CI
+name: VaultLauncher CI
 
 on:
   pull_request:
@@ -11,8 +11,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  backend_ci:
-    name: VaultLauncher CI
+  ci:
+    name: Tauri CI
     strategy:
       fail-fast: false
       matrix:
