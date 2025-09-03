@@ -12,6 +12,7 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"format": "prettier --write .",
 		"lint": "prettier --check . && eslint .",
+		"lint:fix": "eslint . --fix",
 		"tauri": "tauri",
 		"list-licenses": "pnpm list  -r --depth Infinity --long --json | node ./licenses-check.mjs",
 		"check-licenses": "pnpm list  -r --depth Infinity --long --json | node ./licenses-check.mjs check",
