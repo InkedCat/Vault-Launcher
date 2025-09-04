@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { T } from '@threlte/core';
-	import { DoubleSide, MeshPhongMaterial, Texture } from 'three';
+	import { DoubleSide, Texture } from 'three';
 
 	interface StyleLayerProps {
 		texture: Texture;

@@ -1,14 +1,14 @@
 <script lang="ts">
 	import { invoke } from '@tauri-apps/api/core';
 
-	import type { PageData } from './$types';
+	// import type { PageData } from './$types';
 	import { LocaleSwitch, LightSwitch, MicrosoftConnect } from '$lib/components';
 
 	function openLogin() {
 		invoke('open_microsoft_login');
 	}
 
-	let { data }: { data: PageData } = $props();
+	// let { data }: { data: PageData } = $props();
 </script>
 
 <div class="relative flex size-full flex-col items-center justify-center">

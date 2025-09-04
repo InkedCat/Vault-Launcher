@@ -35,7 +35,7 @@
 		{triggerContent}
 	</Select.Trigger>
 	<Select.Content>
-		{#each localeItems as locale}
+		{#each localeItems as locale (locale.value)}
 			<Select.Item value={locale.value} label={locale.label} />
 		{/each}
 	</Select.Content>

@@ -2,7 +2,7 @@
 	import { T } from '@threlte/core';
 	import { BaseLayerMaterial, StyleLayerMaterial } from './materials';
 	import type { Texture } from 'three';
-	import { setPartUV, generateHeadUV, type PartUV } from './utils';
+	import { setPartUV, generateHeadUV } from './utils';
 
 	interface HeadProps {
 		texture: Texture;
