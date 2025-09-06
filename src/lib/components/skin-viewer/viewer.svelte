@@ -46,42 +46,48 @@
 
 <Renderer />
 
-{#await texture then map}
-	<T.Group>
-		<Head
-			texture={map}
-			position.y={28}
-			rotation.x={6 * (Math.PI / 180)}
-			rotation.y={-5 * (Math.PI / 180)}
-		/>
-		<Body texture={map} position.y={18} />
-		<RightArm
-			texture={map}
-			{slim}
-			position.y={18}
-			position.x={6 - (slim ? 0.5 : 0)}
-			rotation.x={10 * (Math.PI / 180)}
-		/>
-		<LeftArm
-			texture={map}
-			{slim}
-			position.y={18}
-			position.x={-6 + (slim ? 0.5 : 0)}
-			rotation.x={-12 * (Math.PI / 180)}
-		/>
-		<RightLeg
-			texture={map}
-			position.y={6}
-			position.x={2}
-			rotation.x={-11 * (Math.PI / 180)}
-			rotation.z={2 * (Math.PI / 180)}
-		/>
-		<LeftLeg
-			texture={map}
-			position.y={6}
-			position.x={-2}
-			rotation.x={10 * (Math.PI / 180)}
-			rotation.z={-2 * (Math.PI / 180)}
-		/>
-	</T.Group>
+{#await texture.promise then map}
+	{#if map}
+		<T.Group>
+			<Head
+				texture={map}
+				position.y={28}
+				rotation.x={6 * (Math.PI / 180)}
+				rotation.y={-5 * (Math.PI / 180)}
+			/>
+			<Body texture={map} position.y={18} />
+			<RightArm
+				texture={map}
+				{slim}
+				position.y={18}
+				position.x={6 - (slim ? 0.5 : 0)}
+				rotation.x={10 * (Math.PI / 180)}
+			/>
+			<LeftArm
+				texture={map}
+				{slim}
+				position.y={18}
+				position.x={-6 + (slim ? 0.5 : 0)}
+				rotation.x={-12 * (Math.PI / 180)}
+			/>
+			<RightLeg
+				texture={map}
+				position.y={6}
+				position.x={2}
+				rotation.x={-11 * (Math.PI / 180)}
+				rotation.z={2 * (Math.PI / 180)}
+			/>
+			<LeftLeg
+				texture={map}
+				position.y={6}
+				position.x={-2}
+				rotation.x={10 * (Math.PI / 180)}
+				rotation.z={-2 * (Math.PI / 180)}
+			/>
+		</T.Group>
+	{:else}
+		<T.Group>
+			<T.Text text="Loading texture..." />
+		</T.Group>
+	{/if}
 {/await}
