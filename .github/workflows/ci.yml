@@ -58,8 +58,8 @@ jobs:
       - name: Check Svelte & Types
         run: pnpm run check
 
-      # - name: Lint Frontend
-      #   run: pnpm run lint
+      - name: Lint Frontend
+        run: pnpm run lint
 
       - name: Install Linux dependencies
         if: matrix.platform == 'ubuntu-24.04'
