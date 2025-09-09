@@ -53,7 +53,8 @@ export default defineConfig(
 			}
 		},
 		rules: {
-			'svelte/no-navigation-without-resolve': ['warn']
+			'svelte/no-navigation-without-resolve': ['warn'],
+			'svelte/no-unused-props': ['warn'] // FIXME: remove when svelte-eslint fixes it on Windows
 		}
 	},
 	prettier
