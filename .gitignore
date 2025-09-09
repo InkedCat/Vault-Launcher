@@ -23,8 +23,9 @@ Cargo.lock
 node_modules/
 .svelte-kit/
 
-# Build folder
+# Build artifacts
 /build/
+/src/lib/paraglide/
 
 # Cursor
 .cursor/

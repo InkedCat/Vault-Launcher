@@ -11,7 +11,9 @@
 	import { goto } from '$app/navigation';
 	import { LoaderCircle } from 'lucide-svelte';
 	import { fade } from 'svelte/transition';
-	let { data, children }: { data: LayoutData; children: Snippet } = $props();
+	import { resolve } from '$app/paths';
+
+	let { children }: { data: LayoutData; children: Snippet } = $props();
 
 	let isLoading = $state(false);
 
@@ -28,7 +30,7 @@
 
 		const accountState = await invoke<boolean>('get_account_state');
 		if (!accountState) {
-			await goto('/sign-in', {});
+			await goto(resolve('/sign-in'), {});
 		}
 
 		await new Promise((resolve) => setTimeout(resolve, 1500));
@@ -52,7 +54,8 @@
 {/if}
 
 <div style="display:none">
-	{#each locales as locale}
+	{#each locales as locale (locale)}
+		<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 		<a href={localizeHref(page.url.pathname, { locale })}>{locale}</a>
 	{/each}
 </div>
