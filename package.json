@@ -16,9 +16,9 @@
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
 		"tauri": "tauri",
-		"list-licenses": "pnpm list  -r --depth Infinity --long --json | node ./licenses-check.mjs",
-		"check-licenses": "pnpm list  -r --depth Infinity --long --json | node ./licenses-check.mjs check",
-		"check-licenses:unknown": "pnpm list  -r --depth Infinity --long --json | node ./licenses-check.mjs check --unknown",
+		"list-licenses": "pnpm list  -r --depth Infinity --long --json | node ./scripts/licenses-check.mjs",
+		"check-licenses": "pnpm list  -r --depth Infinity --long --json | node ./scripts/licenses-check.mjs check",
+		"check-licenses:unknown": "pnpm list  -r --depth Infinity --long --json | node ./scripts/licenses-check.mjs check --unknown",
 		"machine-translate": "inlang machine translate --project project.inlang"
 	},
 	"license": "GPL-3.0-only",
