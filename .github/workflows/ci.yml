@@ -12,6 +12,10 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   ci:
     name: Tauri CI
@@ -74,4 +78,6 @@ jobs:
           sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev
 
       - name: Test VaultLauncher Backend
-        run: cd src-tauri && cargo test
+        run: |
+          cd src-tauri
+          MICROSOFT_CLIENT_ID=test cargo test
