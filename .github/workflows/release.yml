@@ -63,6 +63,8 @@ jobs:
 
       - name: Build VaultLauncher App
         run: pnpm tauri build
+        env:
+          MICROSOFT_CLIENT_ID: ${{ secrets.MICROSOFT_APP_ID }}
 
       - name: Upload Windows Artifacts
         uses: actions/upload-artifact@v4
