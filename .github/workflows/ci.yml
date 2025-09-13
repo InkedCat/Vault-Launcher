@@ -80,4 +80,4 @@ jobs:
       - name: Test VaultLauncher Backend
         run: cd src-tauri && cargo test
         env:
-          MICROSOFT_APP_ID: ${{ secrets.MICROSOFT_APP_ID }}
+          MICROSOFT_CLIENT_ID: ${{ secrets.MICROSOFT_APP_ID }}
