@@ -73,12 +73,19 @@ jobs:
           name: "${{ github.run_id }}-VaultLauncher-${{ matrix.platform }}"
           path: src-tauri/target/release/bundle/nsis
       
-      - name: Upload macOS/Linux Artifacts
+      - name: Upload Linux Artifacts
         uses: actions/upload-artifact@v4
-        if: matrix.platform != 'windows-2022'
+        if: matrix.platform  == 'ubuntu-24.04'
         with:
           name: "${{ github.run_id }}-VaultLauncher-${{ matrix.platform }}"
-          path: src-tauri/target/release/bundle
+          path: src-tauri/target/release/bundle/AppImage/*.AppImage
+
+      - name: Upload macOS Artifacts
+        uses: actions/upload-artifact@v4
+        if: matrix.platform  == 'macos-15'
+        with:
+          name: "${{ github.run_id }}-VaultLauncher-${{ matrix.platform }}"
+          path: src-tauri/target/release/
 
   release:
     permissions:

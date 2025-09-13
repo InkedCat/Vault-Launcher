@@ -2,7 +2,8 @@
 	"release": {
 		"branches": [
 			"main",
-			"next"
+			"next",
+			"ci/cross-platform-compilation"
 		]
 	},
 	"dryRun": true
