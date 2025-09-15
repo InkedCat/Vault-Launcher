@@ -2,9 +2,26 @@
 	"release": {
 		"branches": [
 			"main",
-			"next",
+			{
+				"name": "next",
+				"prerelease": true
+			},
 			"ci/cross-platform-compilation"
 		]
 	},
+	"plugins": [
+		"@semantic-release/commit-analyzer",
+		"@semantic-release/release-notes-generator",
+		"@semantic-release/changelog",
+		"@semantic-release/git",
+		[
+			"@semantic-release/github",
+			{
+				"assets": [
+					"artifacts/**"
+				]
+			}
+		]
+	],
 	"dryRun": true
 }
