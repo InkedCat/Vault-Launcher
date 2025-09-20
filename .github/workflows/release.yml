@@ -21,12 +21,16 @@ jobs:
         include:
           - platform: 'macos-15' # for Arm based macs (M1 and above).
             args: '--target aarch64-apple-darwin'
+            arch: 'aarch64-apple-darwin'
           - platform: 'macos-15' # for Intel based macs.
             args: '--target x86_64-apple-darwin'
+            arch: 'x86_64-apple-darwin'
           - platform: 'ubuntu-24.04'
             args: ''
+            arch: ''
           - platform: 'windows-2022'
             args: ''
+            arch: ''
     runs-on: ${{ matrix.platform }}
     steps:
       - name: Checkout source code
@@ -87,7 +91,7 @@ jobs:
         if: matrix.platform  == 'macos-15'
         with:
           name: "${{ github.run_id }}-VaultLauncher-${{ matrix.platform }}-${{ matrix.args }}"
-          path: src-tauri/target/release/
+          path: src-tauri/target/${{ matrix.arch }}/release/bundle/macos
 
   release:
     permissions:
