@@ -1,0 +1,136 @@
+name: VaultLauncher CD
+
+on:
+  push:
+    branches: [ main, next ]
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    name: Build
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: 'macos-15' # for Arm based macs (M1 and above).
+            args: '--target aarch64-apple-darwin'
+            arch: 'aarch64-apple-darwin'
+          - platform: 'macos-15' # for Intel based macs.
+            args: '--target x86_64-apple-darwin'
+            arch: 'x86_64-apple-darwin'
+          - platform: 'ubuntu-24.04'
+            args: ''
+            arch: ''
+          - platform: 'windows-2022'
+            args: ''
+            arch: ''
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v5
+
+      - name: Setup Rust stable
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.platform == 'macos-15' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+
+      - name: Setup Rust cache
+        uses: swatinem/rust-cache@v2
+        with:
+          cache-on-failure: true
+          workspaces: './src-tauri -> target'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Use Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install Frontend dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Linux dependencies
+        if: matrix.platform == 'ubuntu-24.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev
+
+      - name: Build VaultLauncher App
+        uses: tauri-apps/tauri-action@v0
+        env:
+          MICROSOFT_CLIENT_ID: ${{ secrets.MICROSOFT_APP_ID }}
+        with:
+          args: ${{ matrix.args }}
+
+      - name: Upload Windows Artifacts
+        uses: actions/upload-artifact@v4
+        if: matrix.platform == 'windows-2022'
+        with:
+          name: "${{ github.run_id }}-VaultLauncher-${{ matrix.platform }}"
+          path: src-tauri/target/release/bundle/nsis
+      
+      - name: Upload Linux Artifacts
+        uses: actions/upload-artifact@v4
+        if: matrix.platform  == 'ubuntu-24.04'
+        with:
+          name: "${{ github.run_id }}-VaultLauncher-${{ matrix.platform }}"
+          path: src-tauri/target/release/bundle/appimage/*.AppImage
+
+      - name: Upload macOS Artifacts
+        uses: actions/upload-artifact@v4
+        if: matrix.platform  == 'macos-15'
+        with:
+          name: "${{ github.run_id }}-VaultLauncher-${{ matrix.platform }}-${{ matrix.args }}"
+          path: src-tauri/target/${{ matrix.arch }}/release/bundle/macos
+
+  release:
+    permissions:
+      contents: write # to be able to publish a GitHub release
+      issues: write # to be able to comment on released issues
+      pull-requests: write # to be able to comment on released pull requests
+    name: Release
+    needs: build
+    runs-on: ubuntu-24.04
+    steps:
+      - name : Checkout source code
+        uses: actions/checkout@v5
+      
+      - uses: actions/create-github-app-token@v2
+        id: app-token
+        with:
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Use Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ./bundles
+          pattern: "${{ github.run_id }}-VaultLauncher-*"
+      
+      - name: Create Release
+        run: pnpm semantic-release
+        env:
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+          

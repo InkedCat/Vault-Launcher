@@ -2,6 +2,8 @@ name: VaultLauncher CI
 
 on:
   pull_request:
+  push:
+    branches: [ main, develop ]
 
 env:
   CARGO_TERM_COLOR: always
@@ -9,6 +11,10 @@ env:
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
 
 jobs:
   ci:
@@ -38,6 +44,7 @@ jobs:
       - name: Setup Rust cache
         uses: swatinem/rust-cache@v2
         with:
+          cache-on-failure: true
           workspaces: './src-tauri -> target'
 
       - name: Install pnpm
@@ -47,7 +54,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 24
-          cache: 'pnpm'
+          cache: pnpm
 
       - name: Install Frontend dependencies
         run: pnpm install --frozen-lockfile
@@ -58,6 +65,9 @@ jobs:
       - name: Check Svelte & Types
         run: pnpm run check
 
+      - name: Check Frontend Formatting
+        run: pnpm run format:check
+
       - name: Lint Frontend
         run: pnpm run lint
 
@@ -65,12 +75,9 @@ jobs:
         if: matrix.platform == 'ubuntu-24.04'
         run: |
           sudo apt-get update
-          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev
 
-      - name: Test VaultLauncher App
-        uses: tauri-apps/tauri-action@v0
+      - name: Test VaultLauncher Backend
+        run: cd src-tauri && cargo test
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          MICROSOFT_CLIENT_ID: 'testing'
-        with:
-          args: ${{ matrix.args }}
+          MICROSOFT_CLIENT_ID: ${{ secrets.MICROSOFT_APP_ID }}
