@@ -2,7 +2,7 @@ name: VaultLauncher CD
 
 on:
   push:
-    branches: [ main, 'ci/*' ]
+    branches: [ main ]
 
 permissions:
   contents: write
@@ -62,30 +62,32 @@ jobs:
           sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev
 
       - name: Build VaultLauncher App
-        run: pnpm tauri build ${{ matrix.args }}
+        uses: tauri-apps/tauri-action@v0
         env:
           MICROSOFT_CLIENT_ID: ${{ secrets.MICROSOFT_APP_ID }}
-
-      - name: Upload Windows Artifacts
-        uses: actions/upload-artifact@v4
-        if: matrix.platform == 'windows-2022'
         with:
-          name: "${{ github.run_id }}-VaultLauncher-${{ matrix.platform }}"
-          path: src-tauri/target/release/bundle/nsis
+          args: ${{ matrix.args }}
+
+      # - name: Upload Windows Artifacts
+      #   uses: actions/upload-artifact@v4
+      #   if: matrix.platform == 'windows-2022'
+      #   with:
+      #     name: "${{ github.run_id }}-VaultLauncher-${{ matrix.platform }}"
+      #     path: src-tauri/target/release/bundle/nsis
       
-      - name: Upload Linux Artifacts
-        uses: actions/upload-artifact@v4
-        if: matrix.platform  == 'ubuntu-24.04'
-        with:
-          name: "${{ github.run_id }}-VaultLauncher-${{ matrix.platform }}"
-          path: src-tauri/target/release/bundle/appimage/*.AppImage
+      # - name: Upload Linux Artifacts
+      #   uses: actions/upload-artifact@v4
+      #   if: matrix.platform  == 'ubuntu-24.04'
+      #   with:
+      #     name: "${{ github.run_id }}-VaultLauncher-${{ matrix.platform }}"
+      #     path: src-tauri/target/release/bundle/appimage/*.AppImage
 
-      - name: Upload macOS Artifacts
-        uses: actions/upload-artifact@v4
-        if: matrix.platform  == 'macos-15'
-        with:
-          name: "${{ github.run_id }}-VaultLauncher-${{ matrix.platform }}-${{ matrix.args }}"
-          path: src-tauri/target/release/
+      # - name: Upload macOS Artifacts
+      #   uses: actions/upload-artifact@v4
+      #   if: matrix.platform  == 'macos-15'
+      #   with:
+      #     name: "${{ github.run_id }}-VaultLauncher-${{ matrix.platform }}-${{ matrix.args }}"
+      #     path: src-tauri/target/release/
 
   release:
     permissions:
