@@ -2,7 +2,7 @@ name: VaultLauncher CD
 
 on:
   push:
-    branches: [ main, ci/* ]
+    branches: [ main, next ]
 
 permissions:
   contents: write

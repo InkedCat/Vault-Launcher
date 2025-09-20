@@ -1,8 +1,10 @@
 {
 	"release": {
 		"branches": [
-			"main",
-			"ci/cross-platform-compilation"
+			{
+				"name": "next",
+				"prerelease": true
+			}
 		]
 	},
 	"plugins": [
@@ -18,6 +20,5 @@
 				]
 			}
 		]
-	],
-	"dryRun": true
+	]
 }
