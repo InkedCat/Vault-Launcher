@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { onMount, type Snippet } from 'svelte';
-	import type { LayoutData } from './$types';
 	import { locales, localizeHref } from '$lib/paraglide/runtime';
 
 	import '../app.css';
@@ -13,7 +12,7 @@
 	import { fade } from 'svelte/transition';
 	import { resolve } from '$app/paths';
 
-	let { children }: { data: LayoutData; children: Snippet } = $props();
+	let { children }: { children: Snippet } = $props();
 
 	let isLoading = $state(false);
 
