@@ -7,23 +7,23 @@
 	interface RightArmProps {
 		texture: Texture;
 		slim?: boolean; // default: false
-		'position.x'?: number; // default: 0
-		'position.y'?: number; // default: 0
-		'position.z'?: number; // default: 0
-		'rotation.x'?: number; // default: 0
-		'rotation.y'?: number; // default: 0
-		'rotation.z'?: number; // default: 0
+		x?: number; // default: 0
+		y?: number; // default: 0
+		z?: number; // default: 0
+		rx?: number; // default: 0
+		ry?: number; // default: 0
+		rz?: number; // default: 0
 	}
 
 	const {
 		slim = false,
 		texture,
-		'position.x': x = 0,
-		'position.y': y = 0,
-		'position.z': z = 0,
-		'rotation.x': rx = 0,
-		'rotation.y': ry = 0,
-		'rotation.z': rz = 0
+		x = 0,
+		y = 0,
+		z = 0,
+		rx = 0,
+		ry = 0,
+		rz = 0
 	}: RightArmProps = $props();
 </script>
 
